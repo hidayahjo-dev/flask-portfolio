@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Scratchpad · {{ site_name }}{% endblock %}
+
+{% block content %}
+<section class="section-block scratchpad-section" id="scratchpad">
+  <div class="container">
+    <p class="eyebrow">$ tail -f scratchpad.log</p>
+
+    <h1 class="section-title">
+    {% if current_user.is_authenticated %}
+        Leave me a comment
+      {% else %}
+        Comments from my viewers
+      {% endif %}</h1>
+    <!--<p class="section-lead">-->
+    <!--  Public notes, half-formed thoughts, things I'm currently learning.-->
+    <!--  {% if current_user.is_authenticated %}-->
+    <!--    You're logged in, so go ahead and post.-->
+    <!--  {% else %}-->
+    <!--    Read-only for visitors - log in to post.-->
+    <!--  {% endif %}-->
+    <!--</p>-->
+
+
+
+    <div class="scratchpad-feed mt-5">
+      {% if comments %}
+        {% for comment in comments %}
+        <div class="scratchpad-entry">
+          <span class="scratchpad-entry-index">[{{ "%03d"|format(loop.revindex) }}]</span>
+          <p class="scratchpad-entry-content">{{ comment.content }}</p>
+        </div>
+        {% endfor %}
+      {% else %}
+        <p class="terminal-output">No comments yet. Login and add one.</p>
+      {% endif %}
+    </div>
+      {% if current_user.is_authenticated %}
+    <form method="POST" action="{{ url_for('scratchpad') }}" class="scratchpad-form mt-4">
+      <label for="contents" class="scratchpad-label">$ echo "your comment" &gt;&gt; scratchpad.log</label>
+      <textarea
+        id="contents"
+        name="contents"
+        class="form-control scratchpad-textarea"
+        rows="3"
+        maxlength="4096"
+        placeholder="Type something..."
+        required
+      ></textarea>
+      <button type="submit" class="btn ide-btn-accent mt-3">
+        <i class="bi bi-terminal"></i> Post
+      </button>
+    </form>
+    {% else %}
+    <div class="terminal-window scratchpad-locked mt-4">
+      <div class="terminal-titlebar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        <span class="terminal-filename">comments.log</span>
+      </div>
+      <div class="terminal-body">
+        <!--<p class="terminal-line"><span class="prompt">$</span> post --comment</p>-->
+        <p class="terminal-line terminal-output text-danger">permission denied: login is required</p>
+        <p class="terminal-line">
+          <span class="prompt">>>></span>
+          <!--<span class="cursor-blink">&#9608;</span>-->
+          <a href="{{ url_for('login') }}">Click here to login</a>
+
+        </p>
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+{% endblock %}

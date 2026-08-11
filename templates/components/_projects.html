@@ -1,0 +1,34 @@
+<section id="projects" class="section-block">
+  <div class="container">
+    <p class="eyebrow">$ ls -l projects/</p>
+    <h2 class="section-title">Projects</h2>
+    <div class="row gy-4 mt-2">
+      {% for project in projects %}
+      <div class="col-lg-4 col-md-6">
+        <div class="project-card h-100 {% if project.featured %}project-card-featured{% endif %}">
+          {% if project.featured %}<span class="badge project-badge-featured mb-2">featured</span>{% endif %}
+          <h3 class="project-title">{{ project.title }}</h3>
+          <p class="project-description">{{ project.description }}</p>
+          <div class="project-tags mb-3">
+            {% for tag in project.tags %}
+            <span class="tag-pill">{{ tag }}</span>
+            {% endfor %}
+          </div>
+          <div class="d-flex gap-3 mt-auto">
+            {% if project.repo_url %}
+            <a href="{{ project.repo_url }}" class="project-link" target="_blank" rel="noopener">
+              <i class="bi bi-github"></i> Code
+            </a>
+            {% endif %}
+            {% if project.live_url and project.live_url != '#' %}
+            <a href="{{ project.live_url }}" class="project-link" target="_blank" rel="noopener">
+              <i class="bi bi-box-arrow-up-right"></i> Live
+            </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

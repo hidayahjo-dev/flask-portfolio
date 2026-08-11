@@ -1,0 +1,30 @@
+<section id="experience" class="section-block section-alt">
+  <div class="container">
+    <p class="eyebrow">$ git log --oneline --graph experience</p>
+    <h2 class="section-title">Experience</h2>
+    <div class="timeline mt-4">
+      {% for job in experience %}
+      <div class="timeline-item {% if job.current %}timeline-item-current{% endif %}">
+        <div class="timeline-marker"></div>
+        <div class="timeline-content">
+          <div class="d-flex flex-wrap justify-content-between align-items-baseline gap-2">
+            <h3 class="timeline-role">{{ job.role }}
+              {% if job.current %}<span class="badge timeline-badge-current">current</span>{% endif %}
+            </h3>
+            <span class="timeline-period">{{ job.period }}</span>
+          </div>
+          <p class="timeline-org">{{ job.org }}</p>
+          <p class="timeline-summary">{{ job.summary }}</p>
+          {% if job.highlights %}
+          <ul class="timeline-highlights">
+            {% for point in job.highlights %}
+            <li>{{ point }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

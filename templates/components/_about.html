@@ -1,0 +1,25 @@
+<section id="about" class="section-block">
+  <div class="container">
+    <p class="eyebrow">$ cat about.md</p>
+    <div>
+    <!--<h2 class="section-title">About</h2>-->
+
+    </div>
+    <div class="row gy-4 mt-2">
+      <div class="col-lg-7">
+        <h2 class="section-title">Building products sparked a curiosity for the systems behind them.</h2>
+        <p class="section-lead mt-4">{{ about.bio }}</p>
+      </div>
+      <div class="col-lg-5">
+        <div class="d-flex flex-column gap-3">
+          {% for area in about.focus_areas %}
+          <div class="focus-card">
+            <h3 class="focus-card-title">{{ area.label }}</h3>
+            <p class="focus-card-detail">{{ area.detail }}</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

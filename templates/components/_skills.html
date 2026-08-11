@@ -1,0 +1,35 @@
+<section id="skills" class="section-block section-alt">
+  <div class="container">
+    <p class="eyebrow">$ ls skills/</p>
+    <h2 class="section-title">Technical Skills</h2>
+    <div class="row gy-4 mt-2">
+      {% for group in skills %}
+      <div class="col-md-4">
+        <div class="skill-card">
+          <!--<p class="skill-command">$ {{ group.command }}</p>-->
+          <h3 class="skill-category">{{ group.category }}</h3>
+          <div class="skill-tags mb-3">
+            {% for skill in group.entries %}
+            <span class="skill-pill">{{ skill.name }}</span>
+            {% endfor %}
+          </div>
+          <!--{% for item in group.entries %}-->
+
+          <!--<div class="skill-item">-->
+          <!--  <div class="d-flex justify-content-between">-->
+          <!--    <span class="skill-name">{{ item.name }}</span>-->
+          <!--    <span class="skill-level">{{ item.level }}%</span>-->
+          <!--  </div>-->
+          <!--  <div class="progress skill-progress" role="progressbar"-->
+          <!--       aria-label="{{ item.name }} proficiency"-->
+          <!--       aria-valuenow="{{ item.level }}" aria-valuemin="0" aria-valuemax="100">-->
+          <!--    <div class="progress-bar" style="width: {{ item.level }}%;"></div>-->
+          <!--  </div>-->
+          <!--</div>-->
+          <!--{% endfor %}-->
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

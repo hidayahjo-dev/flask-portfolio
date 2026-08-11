@@ -1,0 +1,21 @@
+<section id="contact" class="section-block contact-section">
+  <div class="container text-center">
+    <!--<p class="eyebrow justify-content-center d-flex">$ ./contact.sh</p>-->
+    <h2 class="section-title">Let's build something</h2>
+    <p class="section-lead mx-auto" style="max-width: 560px;">
+      Open to opportunities, collaborations, or just talking shop about web dev and DevOps.
+    </p>
+    <div class="d-flex justify-content-center gap-3 flex-wrap mt-4">
+      <a href="mailto:{{ contact_email }}" class="btn ide-btn-accent btn-lg">
+        <i class="bi bi-envelope-fill"></i> {{ contact_email }}
+      </a>
+    </div>
+    <div class="d-flex justify-content-center gap-4 mt-4">
+      {% for link in social_links %}
+      <a href="{{ link.url }}" class="social-icon-link" target="_blank" rel="noopener" aria-label="{{ link.label }}">
+        <i class="bi bi-{{ link.icon }}"></i>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>

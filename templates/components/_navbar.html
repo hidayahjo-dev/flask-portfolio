@@ -1,0 +1,61 @@
+<!--<nav class="navbar navbar-expand-lg fixed-top ide-navbar">-->
+<!--  <div class="container">-->
+<!--    <a class="navbar-brand ide-brand" href="{{ url_for('index') }}">-->
+<!--      <span class="ide-brand-dot"></span>~/{{ site_name|lower|replace(' ', '-') }}-->
+<!--    </a>-->
+<!--    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain"-->
+<!--      aria-controls="navMain" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--      <span class="navbar-toggler-icon"></span>-->
+<!--    </button>-->
+<!--    <div class="collapse navbar-collapse" id="navMain">-->
+<!--      <ul class="navbar-nav ms-auto ide-tabs">-->
+<!--        <li class="nav-item"><a class="nav-link" href="#about">about.md</a></li>-->
+<!--        <li class="nav-item"><a class="nav-link" href="#skills">skills.json</a></li>-->
+<!--        <li class="nav-item"><a class="nav-link" href="#projects">projects/</a></li>-->
+<!--        <li class="nav-item"><a class="nav-link" href="#experience">experience.log</a></li>-->
+<!--        <li class="nav-item ms-lg-2">-->
+<!--          <a class="btn btn-sm ide-btn-accent" href="#contact">contact.sh</a>-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</nav>-->
+
+<nav class="navbar navbar-expand-lg fixed-top ide-navbar">
+  <div class="container">
+    <a class="navbar-brand ide-brand" href="{{ url_for('index') }}">
+      <span class="ide-brand-dot"></span>~/{{ site_name|lower|replace(' ', '-') }}
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain"
+      aria-controls="navMain" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMain">
+      <ul class="navbar-nav ms-auto ide-tabs">
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}#about">about.md</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}#skills">skills.json</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}#projects">projects/</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}#experience">experience.log</a></li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('scratchpad') }}">scratchpad.log</a>
+        </li>
+        {% if current_user.is_authenticated %}
+        <li class="nav-item ms-lg-2">
+          <a class="btn btn-sm ide-btn-outline" href="{{ url_for('logout') }}">
+            <i class="bi bi-box-arrow-right"></i> logout()
+          </a>
+        </li>
+        {% else %}
+        <li class="nav-item nav-login-button ms-lg-2">
+          <a class="btn btn-sm ide-btn-outline" href="{{ url_for('login') }}">
+            <i class="bi bi-box-arrow-in-right"></i> login()
+          </a>
+        </li>
+        {% endif %}
+        <!--<li class="nav-item ms-lg-2">-->
+        <!--  <a class="btn btn-sm ide-btn-accent" href="{{ url_for('index') }}#contact">contact.sh</a>-->
+        <!--</li>-->
+      </ul>
+    </div>
+  </div>
+</nav>

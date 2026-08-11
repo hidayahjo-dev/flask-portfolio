@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Login · {{ site_name }}{% endblock %}
+
+{% block content %}
+<section class="section-block login-section">
+  <div class="container">
+    <div class="terminal-window login-window mx-auto">
+      <div class="terminal-titlebar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        <span class="terminal-filename">login.sh</span>
+      </div>
+      <div class="terminal-body">
+        <p class="terminal-line"><span class="prompt">$</span> ./login</p>
+
+        {% if error %}
+        <!--<div class="login-error mt-2 mb-3">-->
+        <!--  <i class="bi bi-x-octagon-fill"></i> {{ error }}-->
+        <!--</div>-->
+        <div class="login-error mt-2 mb-3">
+          <i class="bi bi-x-octagon-fill"></i> Incorrect Username and/or password. Please try again.
+        </div>
+        {% endif %}
+
+        <form method="POST" action="{{ url_for('login') }}" class="login-form mt-3">
+          <div class="mb-3">
+            <label for="username" class="login-label">Username</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              class="form-control login-input"
+              autocomplete="username"
+              required
+              autofocus
+            >
+          </div>
+          <div class="mb-3">
+            <label for="password" class="login-label">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="form-control login-input"
+              autocomplete="current-password"
+              required
+            >
+          </div>
+          <button type="submit" class="btn ide-btn-accent w-100 mt-2">
+            <i class="bi bi-unlock-fill"></i> Login
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

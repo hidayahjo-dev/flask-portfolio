@@ -1,0 +1,811 @@
+/* ==========================================================================
+   Design tokens
+   A developer-terminal aesthetic: deep charcoal-navy background, monospace
+   display type for structure (nav, headings, prompts), cyan for primary
+   accents, amber for secondary highlights - like a code editor's syntax
+   theme rather than a generic "dark mode".
+   ========================================================================== */
+:root {
+  --bg: #0B0E14;
+  --bg-surface: #121826;
+  --bg-surface-2: #1A2233;
+  --border-color: #232B3D;
+
+  --accent-cyan: #5EEAD4;
+  --accent-cyan-dim: #2E7D74;
+  --accent-amber: #F2B84B;
+
+  --text-primary: #E6E8EF;
+  --text-muted: #8B93A7;
+
+  --font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --radius: 8px;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 84px; /* offsets anchor jumps under the fixed navbar */
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  line-height: 1.65;
+}
+
+h1, h2, h3, .font-mono {
+  font-family: var(--font-mono);
+}
+
+a {
+  color: var(--accent-cyan);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--accent-amber);
+}
+
+::selection {
+  background: var(--accent-cyan);
+  color: #0B0E14;
+}
+
+.text-accent-cyan { color: var(--accent-cyan); }
+.text-accent-amber { color: var(--accent-amber); }
+
+/* Respect users who've asked for less motion */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .typewriter::before { animation: none !important; width: auto !important; border-right: none !important; }
+  .cursor-blink { animation: none !important; }
+  .badge-dot { animation: none !important; }
+}
+
+/* ==========================================================================
+   Navbar - slim IDE tab-bar look
+   ========================================================================== */
+.ide-navbar {
+  background: rgba(11, 14, 20, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-color);
+  padding-top: 0.65rem;
+  padding-bottom: 0.65rem;
+}
+
+.ide-brand {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.ide-brand-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  display: inline-block;
+  margin-right: 0.55rem;
+  box-shadow: 0 0 8px var(--accent-cyan);
+}
+
+.ide-tabs .nav-login-button {
+    align-self: center;
+}
+
+.ide-tabs .nav-link {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+.ide-tabs .nav-link:hover {
+  color: var(--text-primary);
+  background: var(--bg-surface-2);
+}
+
+.ide-tabs .nav-link.active {
+  color: var(--accent-cyan);
+  background: var(--bg-surface-2);
+}
+
+.ide-btn-accent {
+  background: var(--accent-cyan);
+  border: 1px solid var(--accent-cyan);
+  color: #0B0E14;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+.ide-btn-accent:hover {
+  background: #7ff4e0;
+  border-color: #7ff4e0;
+  color: #0B0E14;
+}
+
+.ide-btn-outline {
+  background: transparent;
+  /*border: 1px solid var(--border-color);*/
+  border: 1px solid #F2B84B;
+  color: var(--accent-amber);
+  /*color: var(--text-primary);*/
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+.ide-btn-outline:hover {
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+}
+
+/* ==========================================================================
+   Hero
+   ========================================================================== */
+.hero {
+  padding: 9.5rem 0 5rem;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(94, 234, 212, 0.08), transparent 45%),
+    radial-gradient(circle at 85% 30%, rgba(242, 184, 75, 0.06), transparent 40%);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  color: var(--accent-cyan);
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.75rem;
+}
+
+.hero-title {
+  font-size: clamp(2.25rem, 5vw, 3.25rem);
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--text-primary);
+}
+
+.hero-subtitle {
+  font-size: 1.15rem;
+  color: var(--text-primary);
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.hero-bio {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  max-width: 52ch;
+  padding-left: 1.1rem;
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+
+/* --- Signature element: the terminal window --- */
+.terminal-window {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.6);
+}
+
+.terminal-titlebar {
+  background: var(--bg-surface-2);
+  padding: 0.65rem 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.dot-red { background: #FF5F56; }
+.dot-yellow { background: #FFBD2E; }
+.dot-green { background: #27C93F; }
+
+.terminal-filename {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-left: 0.5rem;
+}
+
+.terminal-body {
+  padding: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+}
+
+.hero-intro-terminal .hero-title {
+  margin-top: 0.75rem;
+}
+
+/* --- Profile portrait, paired with the intro terminal --- */
+.hero-portrait-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-portrait-frame {
+  position: relative;
+  width: clamp(220px, 22vw, 340px);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+}
+
+.hero-portrait-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--border-color);
+  box-shadow:
+    0 0 0 6px var(--bg),
+    0 0 0 8px var(--border-color),
+    0 20px 60px -20px rgba(0, 0, 0, 0.7),
+    0 0 50px rgba(94, 234, 212, 0.15);
+  display: block;
+}
+
+/* Small viewfinder-style bracket accents at opposite corners - a subtle
+   nod to the terminal/IDE theme rather than a plain circle crop. */
+.hero-portrait-corner {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border: 2px solid var(--accent-cyan);
+  opacity: 0.8;
+}
+.corner-tl {
+  top: -10px;
+  left: -10px;
+  border-right: none;
+  border-bottom: none;
+  border-radius: 6px 0 0 0;
+}
+.corner-br {
+  bottom: -10px;
+  right: -10px;
+  border-left: none;
+  border-top: none;
+  border-radius: 0 0 6px 0;
+}
+
+.hero-portrait-name {
+  margin-top: 1.25rem;
+  margin-bottom: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.01em;
+  text-align: center;
+}
+
+.hero-portrait-badge {
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-primary);
+  display: inline-flex;
+  align-items: center;
+}
+
+.badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #27C93F;
+  display: inline-block;
+  margin-right: 0.5rem;
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0% { box-shadow: 0 0 0 0 rgba(39, 201, 63, 0.55); }
+  70% { box-shadow: 0 0 0 9px rgba(39, 201, 63, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(39, 201, 63, 0); }
+}
+
+.terminal-line {
+  margin-bottom: 0.6rem;
+  color: var(--text-primary);
+}
+
+.prompt {
+  /*color: var(--accent-cyan);*/
+    color: var(--accent-amber);
+
+  margin-right: 0.5rem;
+}
+
+.terminal-output {
+  color: var(--text-muted);
+  padding-left: 1.1rem;
+}
+
+.cursor-blink {
+  color: var(--accent-cyan);
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* Typewriter effect on the hero's second line */
+.typewriter::before {
+  content: attr(data-text);
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid var(--accent-cyan);
+  width: 0;
+  animation:
+    typing 1.3s steps(17, end) 0.6s forwards,
+    caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 17ch; }
+}
+
+@keyframes caret {
+  50% { border-color: transparent; }
+}
+
+/* ==========================================================================
+   Section scaffolding
+   ========================================================================== */
+.section-block {
+  padding: 5.5rem 0;
+  border-top: 1px solid var(--border-color);
+}
+
+.section-alt {
+  background: linear-gradient(180deg, rgba(18, 24, 38, 0.4), rgba(18, 24, 38, 0));
+}
+
+.section-title {
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.section-lead {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+}
+
+/* ==========================================================================
+   About
+   ========================================================================== */
+.focus-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-left: 3px solid var(--accent-cyan);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+}
+
+.focus-card-title {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.35rem;
+}
+
+.focus-card-detail {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   Skills
+   ========================================================================== */
+.skill-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  height: 100%;
+}
+
+.skill-command {
+  font-family: var(--font-mono);
+  color: var(--accent-amber);
+  font-size: 0.78rem;
+  margin-bottom: 0.35rem;
+}
+
+.skill-category {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 1.1rem;
+  color: var(--text-primary);
+}
+
+.skill-item {
+  margin-bottom: 1rem;
+}
+.skill-item:last-child {
+  margin-bottom: 0;
+}
+
+.skill-name {
+  font-size: 0.9rem;
+  /*color: var(--text-primary);*/
+  color: var(--accent-cyan);
+}
+
+.skill-level {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.skill-progress {
+  background-color: var(--bg-surface-2);
+  height: 6px;
+  border-radius: 3px;
+  margin-top: 0.35rem;
+}
+.skill-progress .progress-bar {
+  background: linear-gradient(90deg, var(--accent-cyan-dim), var(--accent-cyan));
+  border-radius: 3px;
+}
+
+
+.skill-pill{
+    font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--accent-cyan);
+background: rgba(94, 234, 212, 0.12);
+border-radius: 4px;
+  padding: 0.25rem 0.55rem;
+}
+
+/* ==========================================================================
+   Projects
+   ========================================================================== */
+.project-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+.project-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-cyan-dim);
+}
+
+.project-card-featured {
+  border-color: var(--accent-cyan);
+}
+
+.project-badge-featured {
+  align-self: flex-start;
+  background: rgba(94, 234, 212, 0.12);
+  color: var(--accent-cyan);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.7rem;
+  padding: 0.3rem 0.6rem;
+}
+
+.project-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+  color: var(--text-primary);
+}
+
+.project-description {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  flex-grow: 1;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.tag-pill {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--accent-amber);
+  background: rgba(242, 184, 75, 0.1);
+  border-radius: 4px;
+  padding: 0.25rem 0.55rem;
+}
+
+.project-link {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.project-link:hover {
+  color: var(--accent-cyan);
+}
+
+/* ==========================================================================
+   Experience - git-log-style timeline
+   ========================================================================== */
+.timeline {
+  position: relative;
+  padding-left: 1.9rem;
+  border-left: 2px solid var(--border-color);
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: 2.25rem;
+}
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.timeline-marker {
+  position: absolute;
+  left: -2.35rem;
+  top: 0.35rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--bg-surface-2);
+  border: 2px solid var(--accent-cyan-dim);
+}
+
+.timeline-item-current .timeline-marker {
+  background: var(--accent-cyan);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 10px var(--accent-cyan);
+}
+
+.timeline-role {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.15rem;
+}
+
+.timeline-badge-current {
+  background: rgba(94, 234, 212, 0.12);
+  color: var(--accent-cyan);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 500;
+  vertical-align: middle;
+  margin-left: 0.4rem;
+}
+
+.timeline-period {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.timeline-org {
+  color: var(--accent-amber);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.timeline-summary {
+    width:70%;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  margin-bottom: 0.5rem;
+}
+
+.timeline-highlights {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  padding-left: 1.1rem;
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   Contact
+   ========================================================================== */
+.contact-section {
+  padding-bottom: 7rem;
+}
+
+.social-icon-link {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.social-icon-link:hover {
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+}
+
+/* ==========================================================================
+   Footer - VS Code style status bar
+   ========================================================================== */
+.status-bar {
+  background: var(--bg-surface-2);
+  border-top: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 0.6rem 0;
+}
+
+.status-bar i {
+  margin-right: 0.15rem;
+}
+
+/* ==========================================================================
+   Login
+   ========================================================================== */
+.login-section {
+  padding-top: 9rem;
+  min-height: 75vh;
+  display: flex;
+  align-items: center;
+}
+
+.login-window {
+  max-width: 420px;
+  width: 100%;
+}
+
+.login-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 0.35rem;
+}
+
+.login-input {
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+}
+.login-input:focus {
+  background: var(--bg-surface-2);
+  color: var(--text-primary);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 0.2rem rgba(94, 234, 212, 0.15);
+}
+.login-input::placeholder {
+  color: var(--text-muted);
+}
+
+.login-error {
+  background: rgba(255, 95, 86, 0.1);
+  border-left: 3px solid #ff5f56;
+  border-radius: 4px;
+  padding: 0.6rem 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: #ff8a82;
+}
+
+/* ==========================================================================
+   Scratchpad
+   ========================================================================== */
+.scratchpad-section {
+  padding-top: 8.5rem;
+  min-height: 70vh;
+}
+
+.scratchpad-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--accent-cyan);
+  margin-bottom: 0.5rem;
+}
+
+.scratchpad-textarea {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  border-radius: var(--radius);
+  resize: vertical;
+}
+.scratchpad-textarea:focus {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 0.2rem rgba(94, 234, 212, 0.15);
+}
+.scratchpad-textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.scratchpad-locked {
+  max-width: 480px;
+}
+
+.scratchpad-feed {
+  border-top: 1px solid var(--border-color);
+  padding-top: 2rem;
+}
+
+.scratchpad-entry {
+  display: flex;
+  gap: 1rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+.scratchpad-entry:last-child {
+  border-bottom: none;
+}
+
+.scratchpad-entry-index {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--accent-amber);
+  flex-shrink: 0;
+  padding-top: 0.1rem;
+}
+
+.scratchpad-entry-content {
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  margin-bottom: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ==========================================================================
+   Error pages
+   ========================================================================== */
+.error-section {
+  padding: 10rem 0 6rem;
+  min-height: 60vh;
+}
+
+/* ==========================================================================
+   Responsive tweaks
+   ========================================================================== */
+@media (max-width: 991.98px) {
+  .hero { padding: 7.5rem 0 3.5rem; }
+  .ide-tabs { margin-top: 0.75rem; gap: 0.25rem; }
+}
