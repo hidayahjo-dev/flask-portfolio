@@ -4,3 +4,6 @@ __pycache__/
 .git/
 .gitignore
 .env
+instance/
+Dockerfile
+docker-compose.yaml
