@@ -1,18 +1,21 @@
-
 # A very simple Flask Hello World app for you to get started with...
 
 # from datetime import datetime, timezone
+import os
+from dotenv import load_dotenv
 from flask import Flask, render_template, redirect, request, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import login_user, logout_user, login_required, LoginManager, UserMixin
 from werkzeug.security import check_password_hash, generate_password_hash
 
+load_dotenv()
+
 app = Flask(__name__)
 
 app.config["DEBUG"] = True
 
-#CONNECT TO DATABASE
-SQLALCHEMY_DATABASE_URI = "sqlite:///comments.db"
+# CONNECT TO DATABASE
+SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
 
 app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
@@ -26,33 +29,21 @@ app.secret_key = "cats ash and grey sits by the window"
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+
 class User(UserMixin, db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
 
-    username = db.Column(
-            db.String(80),
-            unique=True,
-            nullable=False
-        )
+    username = db.Column(db.String(80), unique=True, nullable=False)
 
-    password_hash = db.Column(
-            db.String(255),
-            nullable=False
-        )
+    password_hash = db.Column(db.String(255), nullable=False)
 
     def check_password(self, password):
-        return check_password_hash(
-            self.password_hash,
-            password
-        )
+        return check_password_hash(self.password_hash, password)
 
 
 def create_user(username, password):
-    user = User(
-        username=username,
-        password_hash=generate_password_hash(password)
-    )
+    user = User(username=username, password_hash=generate_password_hash(password))
     db.session.add(user)
     db.session.commit()
 
@@ -78,6 +69,7 @@ def create_user(username, password):
 @login_manager.user_loader
 def load_user(user_id):
     return db.session.get(User, int(user_id))
+
 
 class Comment(db.Model):
     __tablename__ = "comments"
@@ -173,7 +165,7 @@ SKILLS = [
             {"name": "Troubleshooting", "level": 65},
             {"name": "Performance Monitoring", "level": 65},
         ],
-    }
+    },
 ]
 PROJECTS = [
     {
@@ -194,7 +186,13 @@ PROJECTS = [
         "to automate network discovery and record scan results."
         "The scanner is scheduled with cron and stores timestamped results that can be accessed through an Apache web server."
         "Built as a hands-on exercise in Linux administration, networking, scripting, automation, and basic service deployment.",
-        "tags": ["Linux", "Bash Scripting", "Networking", "File Permission", "Automation"],
+        "tags": [
+            "Linux",
+            "Bash Scripting",
+            "Networking",
+            "File Permission",
+            "Automation",
+        ],
         "repo_url": "https://github.com/your-username/project-two",
         "live_url": "https://nhidayahj.pythonanywhere.com/",
         "featured": False,
@@ -202,7 +200,18 @@ PROJECTS = [
     {
         "title": "Capstone",
         "description": "Project in progress",
-        "tags": ["Python", "Linux", "Git", "Kubernetes","Azure", "Docker", "Ansible", "Terraform", "Monitoring", "CI/CD"],
+        "tags": [
+            "Python",
+            "Linux",
+            "Git",
+            "Kubernetes",
+            "Azure",
+            "Docker",
+            "Ansible",
+            "Terraform",
+            "Monitoring",
+            "CI/CD",
+        ],
         "repo_url": "https://github.com/your-username/project-three",
         "live_url": "https://nhidayahj.pythonanywhere.com/",
         "featured": False,
@@ -238,10 +247,13 @@ EXPERIENCE = [
 ]
 SOCIAL_LINKS = [
     {"label": "GitHub", "url": "https://github.com/your-username", "icon": "github"},
-    {"label": "LinkedIn", "url": "https://linkedin.com/in/your-username", "icon": "linkedin"},
+    {
+        "label": "LinkedIn",
+        "url": "https://linkedin.com/in/your-username",
+        "icon": "linkedin",
+    },
     {"label": "Email", "url": "mailto:you@example.com", "icon": "envelope"},
 ]
-
 
 
 # ============================================================================
@@ -278,20 +290,6 @@ def index():
     )
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # @app.route('/',methods=["GET"])
 # def index():
 #     # return render_template("main_page.html")
@@ -312,7 +310,6 @@ def index():
 #     return render_template("comments_page.html")
 
 
-
 # @app.route('/comments', methods=["GET", "POST"])
 # def comments():
 #     if request.method == "POST":
@@ -327,7 +324,8 @@ def index():
 #         comments=comments
 #     )
 
-@app.route('/scratchpad', methods=["GET", "POST"])
+
+@app.route("/scratchpad", methods=["GET", "POST"])
 def scratchpad():
     if request.method == "POST":
         # comment = Comment(content=request.form["contents"])
@@ -345,30 +343,27 @@ def scratchpad():
     comments = Comment.query.order_by(Comment.id.desc()).all()
     return render_template("scratchpad.html", comments=comments)
 
-@app.route('/login/', methods=['GET', 'POST'])
+
+@app.route("/login/", methods=["GET", "POST"])
 def login():
 
     if request.method == "GET":
         return render_template("login_page.html", error=False)
 
-    user = User.query.filter_by(
-            username = request.form['username']
-        ).first()
+    user = User.query.filter_by(username=request.form["username"]).first()
 
     if user is None:
         return render_template("login_page.html", error=True)
 
-    if not user.check_password(request.form['password']):
+    if not user.check_password(request.form["password"]):
         return render_template("login_page.html", error=True)
-
 
     login_user(user)
     return redirect(url_for("scratchpad"))
 
-@app.route('/logout/')
+
+@app.route("/logout/")
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('index'))
-
-
+    return redirect(url_for("index"))
