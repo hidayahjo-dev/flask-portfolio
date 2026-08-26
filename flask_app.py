@@ -15,7 +15,15 @@ app = Flask(__name__)
 app.config["DEBUG"] = True
 
 # CONNECT TO DATABASE
-SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
+db_host = os.getenv("DB_HOST")
+db_port = os.getenv("DB_PORT")
+db_name = os.getenv("DB_NAME")
+db_user = os.getenv("DB_USER")
+db_password = os.getenv("DB_PASSWORD")
+
+SQLALCHEMY_DATABASE_URI = (
+    f"mysql+pymysql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
+)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
