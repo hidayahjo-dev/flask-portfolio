@@ -3,15 +3,16 @@ kind: Service
 
 metadata:
   name: flask-service
-  namespace: flask-app
+  namespace: flask-demo
 
 spec:
-  type: LoadBalancer
+  type: NodePort
 
   selector:
     app: flask
 
   ports:
-    - port: 80
+    - protocol: TCP
+      port: 5000
       targetPort: 5000
 

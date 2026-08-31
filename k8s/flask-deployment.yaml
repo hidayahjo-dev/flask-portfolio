@@ -3,10 +3,10 @@ kind: Deployment
 
 metadata:
   name: flask-deployment
-  namespace: flask-app
+  namespace: flask-demo
 
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: flask
@@ -17,9 +17,11 @@ spec:
         app: flask
 
     spec:
+      imagePullSecrets:
+          - name: dockerhub-secret
       containers: 
         - name: flask
-          image: nhidayah26/flask-app-demo:v1
+          image: nhidayah26/flask-minikube-demo2:v2
 
           ports:
             - containerPort: 5000

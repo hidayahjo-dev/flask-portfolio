@@ -3,6 +3,7 @@ kind: Deployment
 
 metadata:
   name: mysql
+  namespace: flask-demo
 
 spec:
   replicas: 1
