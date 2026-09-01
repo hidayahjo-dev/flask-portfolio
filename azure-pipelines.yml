@@ -24,5 +24,16 @@ steps:
   displayName: 'Inspect Azure DevOps agent'
 
 - script: |
-    docker build -t flask-app-cicd:v1 .
+    docker build -t nhidayah26/flask-app-cicd:v1 .
   displayName: 'Build Docker image'
+
+- task: Docker@2
+  displayName: "Push Docker Image to Docker Hub"
+  inputs:
+    command: push
+    repository: nhidayah26/flask-app-cicd
+    tags: |
+      v1
+    containerRegistry: dockerhub-cicd
+
+    
