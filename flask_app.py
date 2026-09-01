@@ -90,8 +90,9 @@ class Comment(db.Model):
 # Content
 # ============================================================================
 ABOUT = {
-    "headline": "I build for the web, and I'm learning to ship it with CI/CD",
-    "bio": "A Developer/Engineer with a background in web development and a growing focus on Cloud infrastructure and DevOps practices. I enjoy understanding the full loop — from writing code and knowing how it works, to learning how it’s deployed, monitored, and operated reliably. I’m currently building hands-on skills across Linux, Python, Azure, Docker, Kubernetes, automation, and support. For me, it’s about connecting development with the systems that bring technology to life.",
+    "headline": "I build for the web, and I'm learning to ship it with CI/CD. Let's go.",
+    "bio": "A Developer/Engineer with a background in web development and a growing focus on Cloud infrastructure and DevOps practices. I enjoy understanding the full loop — from writing code and knowing how it works, to learning how it’s deployed, monitored, and operated reliably. "
+    "I’m currently building hands-on skills across Linux, Python, Azure, Docker, Kubernetes, automation, and support. For me, it’s about connecting development with the systems that bring technology to life.",
     "bio_hero": (
         "A Developer/Engineer with web development experience and a growing focus in "
         "leveling up in Cloud infrastructure and DevOps practices. I appreciate the "
