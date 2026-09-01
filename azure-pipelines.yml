@@ -42,18 +42,32 @@ jobs:
       containerRegistry: dockerhub-cicd
 
 
-- job: CD_Test
-  displayName: 'Continuous Deployment - Test'
+- job: CD
+  displayName: 'Continuous Deployment'
+  dependsOn: CI
+
   pool:
     name: minikube-local
 
   steps:
-
   - script: |
-      echo "Testing Kubernetes access..."
-      kubectl version --client
+      echo "Current Kubernetes nodes:"
+      kubectl get nodes
 
       echo ""
-      echo "Minikube nodes:"
-      kubectl get nodes
-    displayName: 'Test Minikube Connection'
+      echo "Checking MySQL secret..."
+      kubectl get secret mysql-secret -n flask-demo
+
+      echo ""
+      echo "Deploying Flask application..."
+      kubectl apply -f k8s/flask-deployment.yaml
+
+      echo ""
+      echo "Deploying Flask service..."
+      kubectl apply -f k8s/flask-service.yaml
+
+      echo ""
+      echo "Checking Flask rollout..."
+      kubectl rollout status deployment/flask-deployment -n flask-demo
+    displayName: 'Deploy to Minikube'
+

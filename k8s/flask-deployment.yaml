@@ -21,7 +21,7 @@ spec:
           - name: dockerhub-secret
       containers: 
         - name: flask
-          image: nhidayah26/flask-minikube-demo2:v2
+          image: nhidayah26/flask-app-cicd:v1
 
           ports:
             - containerPort: 5000
