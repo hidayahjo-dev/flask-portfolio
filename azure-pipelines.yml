@@ -6,34 +6,54 @@
 trigger:
 - main
 
-pool:
-  vmImage: ubuntu-latest
+jobs:
 
-steps:
-- script: |
-    echo "Current directory:"
-    pwd
+- job: CI
+  displayName: 'Continuous Integration'
+  pool:
+    vmImage: ubuntu-latest
 
-    echo ""
-    echo "Files in repository:"
-    ls -la
+  steps:
 
-    echo ""
-    echo "Python version:"
-    python3 --version
-  displayName: 'Inspect Azure DevOps agent'
+  - script: |
+      echo "Current directory:"
+      pwd
 
-- script: |
-    docker build -t nhidayah26/flask-app-cicd:v1 .
-  displayName: 'Build Docker image'
+      echo ""
+      echo "Files in repository:"
+      ls -la
 
-- task: Docker@2
-  displayName: "Push Docker Image to Docker Hub"
-  inputs:
-    command: push
-    repository: nhidayah26/flask-app-cicd
-    tags: |
-      v1
-    containerRegistry: dockerhub-cicd
+      echo ""
+      echo "Docker version:"
+      docker --version
+    displayName: 'Inspect Azure DevOps agent'
 
-    
+  - script: |
+      docker build -t nhidayah26/flask-app-cicd:v1 .
+    displayName: 'Build Docker Image'
+
+  - task: Docker@2
+    displayName: 'Push Docker Image to Docker Hub'
+    inputs:
+      command: push
+      repository: nhidayah26/flask-app-cicd
+      tags: |
+        v1
+      containerRegistry: dockerhub-cicd
+
+
+- job: CD_Test
+  displayName: 'Continuous Deployment - Test'
+  pool:
+    name: minikube-local
+
+  steps:
+
+  - script: |
+      echo "Testing Kubernetes access..."
+      kubectl version --client
+
+      echo ""
+      echo "Minikube nodes:"
+      kubectl get nodes
+    displayName: 'Test Minikube Connection'
