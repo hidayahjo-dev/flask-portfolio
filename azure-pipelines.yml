@@ -50,6 +50,7 @@ jobs:
     name: minikube-local
 
   steps:
+
   - script: |
       echo "Current Kubernetes nodes:"
       kubectl get nodes
@@ -57,6 +58,22 @@ jobs:
       echo ""
       echo "Checking MySQL secret..."
       kubectl get secret mysql-secret -n flask-demo
+
+      echo ""
+      echo "Deploying MySQL ConfigMap..."
+      kubectl apply -f k8s/mysql-configmap.yaml
+
+      echo ""
+      echo "Deploying MySQL..."
+      kubectl apply -f k8s/mysql-deployment.yaml
+
+      echo ""
+      echo "Deploying MySQL Service..."
+      kubectl apply -f k8s/mysql-service.yaml
+
+      echo ""
+      echo "Waiting for MySQL rollout..."
+      kubectl rollout status deployment/mysql -n flask-demo
 
       echo ""
       echo "Deploying Flask application..."
@@ -67,7 +84,12 @@ jobs:
       kubectl apply -f k8s/flask-service.yaml
 
       echo ""
-      echo "Checking Flask rollout..."
+      echo "Waiting for Flask rollout..."
       kubectl rollout status deployment/flask-deployment -n flask-demo
-    displayName: 'Deploy to Minikube'
 
+      echo ""
+      echo "Final Kubernetes resources:"
+      kubectl get pods -n flask-demo
+      kubectl get services -n flask-demo
+
+    displayName: 'Deploy to Minikube'

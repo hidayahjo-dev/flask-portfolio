@@ -3,6 +3,7 @@ kind: ConfigMap
 
 metadata:
   name: mysql-config
+  namespace: flask-demo
 
 data:
   MYSQL_DATABASE: comments_db
