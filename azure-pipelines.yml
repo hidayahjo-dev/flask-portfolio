@@ -10,6 +10,15 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo "Hello, from Azure DevOps!"
-  displayName: 'Test Azure DevOps agent'
+- script: |
+    echo "Current directory:"
+    pwd
 
+    echo ""
+    echo "Files in repository:"
+    ls -la
+
+    echo ""
+    echo "Python version:"
+    python3 --version
+  displayName: 'Inspect Azure DevOps agent'
