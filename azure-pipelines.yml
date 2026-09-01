@@ -22,3 +22,7 @@ steps:
     echo "Python version:"
     python3 --version
   displayName: 'Inspect Azure DevOps agent'
+
+- script: |
+    docker build -t flask-app-cicd:v1 .
+  displayName: 'Build Docker image'
