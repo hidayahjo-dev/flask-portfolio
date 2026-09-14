@@ -50,10 +50,17 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
 
-def create_user(username, password):
+def create_user(username, password)
     user = User(username=username, password_hash=generate_password_hash(password))
     db.session.add(user)
     db.session.commit()
+
+
+
+
+
+
+
 
 
 # class User(UserMixin):
