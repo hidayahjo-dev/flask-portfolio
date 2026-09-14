@@ -6,7 +6,7 @@ metadata:
   namespace: flask-webapp-demo
 
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: flask-webapp
