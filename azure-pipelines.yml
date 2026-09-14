@@ -29,14 +29,14 @@ jobs:
     displayName: 'Inspect Azure DevOps agent'
 
   - script: |
-      docker build -t nhidayah26/flask-app-cicd:v1 .
+      docker build -t nhidayah26/flask-webapp-demo:v1 .
     displayName: 'Build Docker Image'
 
   - task: Docker@2
     displayName: 'Push Docker Image to Docker Hub'
     inputs:
       command: push
-      repository: nhidayah26/flask-app-cicd
+      repository: nhidayah26/flask-webapp-demo
       tags: |
         v1
       containerRegistry: dockerhub-cicd
@@ -57,7 +57,7 @@ jobs:
 
       echo ""
       echo "Checking MySQL secret..."
-      kubectl get secret mysql-secret -n flask-demo
+      kubectl get secret mysql-secret -n flask-webapp-demo
 
       echo ""
       echo "Deploying MySQL ConfigMap..."
@@ -73,7 +73,7 @@ jobs:
 
       echo ""
       echo "Waiting for MySQL rollout..."
-      kubectl rollout status deployment/mysql -n flask-demo
+      kubectl rollout status deployment/mysql -n flask-webapp-demo
 
       echo ""
       echo "Deploying Flask application..."
@@ -85,11 +85,11 @@ jobs:
 
       echo ""
       echo "Waiting for Flask rollout..."
-      kubectl rollout status deployment/flask-deployment -n flask-demo
+      kubectl rollout status deployment/flask-deployment -n flask-webapp-demo
 
       echo ""
       echo "Final Kubernetes resources:"
-      kubectl get pods -n flask-demo
-      kubectl get services -n flask-demo
+      kubectl get pods -n flask-webapp-demo
+      kubectl get services -n flask-webapp-demo
 
     displayName: 'Deploy to Minikube'
