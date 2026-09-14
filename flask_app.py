@@ -56,13 +56,6 @@ def create_user(username, password)
     db.session.commit()
 
 
-
-
-
-
-
-
-
 # class User(UserMixin):
 #     def __init__(self, username, password_hash):
 #         self.username = username

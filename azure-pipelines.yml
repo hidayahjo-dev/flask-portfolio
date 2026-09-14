@@ -29,6 +29,10 @@ jobs:
     displayName: 'Inspect Azure DevOps agent'
 
   - script: |
+      python -m py_compile flask_app.py
+    displayName: 'Validate Python Syntax'
+
+  - script: |
       docker build -t nhidayah26/flask-webapp-demo:v1 .
     displayName: 'Build Docker Image'
 
