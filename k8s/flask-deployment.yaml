@@ -3,25 +3,25 @@ kind: Deployment
 
 metadata:
   name: flask-deployment
-  namespace: flask-demo
+  namespace: flask-webapp-demo
 
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: flask
+      app: flask-webapp
 
   template:
     metadata:
       labels:
-        app: flask
+        app: flask-webapp
 
     spec:
       imagePullSecrets:
-          - name: dockerhub-secret
+        - name: dockerhub-secret
       containers: 
-        - name: flask
-          image: nhidayah26/flask-app-cicd:v1
+        - name: flask-webapp
+          image: nhidayah26/flask-webapp-demo:v1
 
           ports:
             - containerPort: 5000

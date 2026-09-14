@@ -67,12 +67,6 @@ def create_user(username, password):
 #     def get_id(self):
 #         return self.username
 
-# all_users = {
-#     "admin": User("admin", generate_password_hash("secret")),
-#     "bob": User("bob", generate_password_hash("less-secret")),
-#     "caroline": User("caroline", generate_password_hash("completely-secret")),
-# }
-
 
 @login_manager.user_loader
 def load_user(user_id):

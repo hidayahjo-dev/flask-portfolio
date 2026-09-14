@@ -3,7 +3,7 @@ kind: Service
 
 metadata:
   name: mysql
-  namespace: flask-demo
+  namespace: flask-webapp-demo
 
 spec:
   selector:
